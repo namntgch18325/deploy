@@ -7,14 +7,16 @@ exports.getProductInTheDatabase = async () =>
         "FROM product " +
         "INNER JOIN cartype on product.productTypeID = cartype.typeID " +
         "INNER JOIN imagecar on imagecar.productID = product.productID " +
-        "INNER JOIN brand WHERE brand.brandID = product.productBrand " +
+        "INNER JOIN brand on brand.brandID = product.productBrand " +
         "GROUP BY (imagecar.productID)";
         database.query(qr,function(err,rows,fields){
+            console.log(qr);
             if(err) reject(err);
             else resolve(rows);
             });
         });
 }
+
 exports.addOneProductToDatabase = (productName, productBrand, productPrice, productColor, productTypeID, account_added, imageList) =>
 {   
     return promise = new Promise((resolve,reject) =>
@@ -40,6 +42,7 @@ exports.addOneProductToDatabase = (productName, productBrand, productPrice, prod
         });
     });
 }
+
 exports.deleteTheProductInDatabase = (productID) =>
 {
     return promise = new Promise((resolve, reject) => 
@@ -58,6 +61,7 @@ exports.deleteTheProductInDatabase = (productID) =>
 
 exports.updateTheProductInformationModel = (product) =>
 {
+    let a = 0;
     return promise = new Promise((resolve,reject)=>
     {
         if(product.productBrand != null && product.productBrand != "" 
@@ -79,14 +83,17 @@ exports.updateTheProductInformationModel = (product) =>
             " WHERE productID = " +product.productID;
             database.query(qr,function(err,rows,fields)
             {
+                console.log(a);//0
                     if(err) reject(err);
                     else if(rows.affectedRows >=1) resolve(rows)
                     else reject(err);
             });
        }
        else reject(0);
+       console.log(a+1);
     });
 }
+
 exports.updateProductOnImage = async (imageList) =>
 {
     return promise = await new Promise((resolve,reject)=>
