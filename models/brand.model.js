@@ -11,3 +11,14 @@ exports.addNewBrandModel = (brandName) => {
         });
     })
 }
+
+exports.getAllBrandModel = () =>{
+    return promise = new Promise((resolve,reject)=>{
+        let qr ="select * from brand";
+        database.query(qr,function(err,rows){
+            if(err) reject(err);
+            else 
+            resolve(rows);
+        })
+    });
+}
